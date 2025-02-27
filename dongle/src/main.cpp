@@ -1,18 +1,36 @@
 #include <Arduino.h>
 
-// put function declarations here:
-int myFunction(int, int);
+String command;
 
-void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+
+
+void setup()
+{
+  pinMode(BUILTIN_LED, OUTPUT);
+  Serial.begin(9600);
+  Serial.println("Ready to receive");
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
+void commands(){
+  if (Serial.available())
+  {
+    command = Serial.read();
+    Serial.println(command);
+    if (command.equals("On\n")) 
+    {
+      digitalWrite(BUILTIN_LED, HIGH);
+
+    }
+    else if (command.equals("Off\n")) 
+    {
+      digitalWrite(BUILTIN_LED, LOW);
+    }
+  }
 }
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+void loop()
+{
+  commands();
 }
+
+
