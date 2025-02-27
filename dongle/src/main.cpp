@@ -2,8 +2,6 @@
 
 String command;
 
-
-
 void setup()
 {
   pinMode(BUILTIN_LED, OUTPUT);
@@ -18,7 +16,6 @@ void commands(){
     if (command.equals("ON\n")) 
     {
       digitalWrite(BUILTIN_LED, HIGH);
-
     }
     else if (command.equals("OFF\n"))
     {
@@ -31,5 +28,3 @@ void loop()
 {
   commands();
 }
-
-
