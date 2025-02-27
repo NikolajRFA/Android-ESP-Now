@@ -1,6 +1,6 @@
 #include <Arduino.h>
 
-String command;
+char command[32];
 
 void setup()
 {
@@ -10,19 +10,35 @@ void setup()
 }
 
 void commands(){
-  if (Serial.available())
-  {
-    command = Serial.readString();
-    if (command.equals("ON\n")) 
+  if (Serial.available() > 0) {
+    int avaliableBytes = Serial.available();
+    for (int i=0; i<avaliableBytes; i++){
+      command[i] = Serial.read();
+    }
+    Serial.println(command);
+
+    if (command[0]=='O' && command[1]=='N' && command[2]=='\n')
     {
       digitalWrite(BUILTIN_LED, HIGH);
     }
-    else if (command.equals("OFF\n"))
+    else if (command[0]=='O' && command[1]=='F' && command[2] == 'F' && command[3] == '\n')
     {
       digitalWrite(BUILTIN_LED, LOW);
     }
   }
 }
+
+  /*switch (command)
+  {
+  case 'ON':
+    digitalWrite(BUILTIN_LED, HIGH);
+    break;
+
+  case 'OFF':
+    digitalWrite(BUILTIN_LED, LOW);
+  }
+  Serial.println(command);
+*/
 
 void loop()
 {
