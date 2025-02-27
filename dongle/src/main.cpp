@@ -7,21 +7,20 @@ String command;
 void setup()
 {
   pinMode(BUILTIN_LED, OUTPUT);
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.println("Ready to receive");
 }
 
 void commands(){
   if (Serial.available())
   {
-    command = Serial.read();
-    Serial.println(command);
-    if (command.equals("On\n")) 
+    command = Serial.readString();
+    if (command.equals("ON\n")) 
     {
       digitalWrite(BUILTIN_LED, HIGH);
 
     }
-    else if (command.equals("Off\n")) 
+    else if (command.equals("OFF\n"))
     {
       digitalWrite(BUILTIN_LED, LOW);
     }
