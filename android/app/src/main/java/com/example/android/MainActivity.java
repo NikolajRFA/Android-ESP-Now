@@ -38,11 +38,10 @@ public class MainActivity extends AppCompatActivity {
 
         final int WRITE_WAIT_MILLIS = 2000;
 
-        // Initialize usb port
-        UsbSerialPort port = getUsbSerialPort();
-
         // Set an OnClickedListener
         sendButton.setOnClickListener(v -> {
+            // Initialize usb port
+            UsbSerialPort port = getUsbSerialPort();
             if (port == null) return;
             String data = "%s:%s";
             String output = String.format(data, macAddressField.getText(), dataField.getText());
@@ -58,7 +57,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Set an OnCheckedChangeListener
         myToggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            // Find all available drivers from attached devices.
+            // Initialize usb port
+            UsbSerialPort port = getUsbSerialPort();
             if (port == null) return;
             try {
                 if (isChecked) {
