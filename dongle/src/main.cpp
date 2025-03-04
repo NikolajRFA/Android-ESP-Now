@@ -1,6 +1,10 @@
 #include <Arduino.h>
 
-char command[32];
+char command[255];
+
+char macAddressData[18];
+
+char data[239];
 
 void setup()
 {
@@ -9,25 +13,22 @@ void setup()
   Serial.println("Ready to receive");
 }
 
-void commands(){
-  if (Serial.available() > 0) {
-    int avaliableBytes = Serial.available();
+void parseMacAddressAndData(){
+  int avaliableBytes = Serial.available();
+  if (avaliableBytes > 0){
     for (int i=0; i<avaliableBytes; i++){
       command[i] = Serial.read();
     }
-
-    if (command[0]=='O' && command[1]=='N' && command[2]=='\n')
-    {
-      digitalWrite(BUILTIN_LED, HIGH);
-    }
-    else if (command[0]=='O' && command[1]=='F' && command[2] == 'F' && command[3] == '\n')
-    {
-      digitalWrite(BUILTIN_LED, LOW);
-    }
+    strncpy(macAddressData, command, 17);
+    Serial.print("MacAddress:");
+    Serial.println(macAddressData);
+    strncpy(data, command+17, 238);
+    Serial.print("Data:");
+    Serial.println(data);
   }
 }
 
 void loop()
 {
-  commands();
+  parseMacAddressAndData();
 }
