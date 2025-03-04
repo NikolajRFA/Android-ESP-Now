@@ -40,18 +40,14 @@
             android:hint="@string/enter_the_receiver_s_mac_address"
             android:inputType="text" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/data" />
-
         <EditText
             android:id="@+id/dataInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints=""
             android:hint="@string/enter_the_data_to_be_sent"
-            android:inputType="text" />
+            android:inputType="text"
+            android:text="@string/presetCurlyBrances"/>
 
         <Button
             android:id="@+id/submitButton"
