@@ -15,7 +15,6 @@ void commands(){
     for (int i=0; i<avaliableBytes; i++){
       command[i] = Serial.read();
     }
-    Serial.println(command);
 
     if (command[0]=='O' && command[1]=='N' && command[2]=='\n')
     {
