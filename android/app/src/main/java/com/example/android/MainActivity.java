@@ -1,5 +1,7 @@
 package com.example.android;
 
+import static com.example.android.MacAddressValidator.isValidMacAddress;
+
 import android.content.Context;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
@@ -40,10 +42,21 @@ public class MainActivity extends AppCompatActivity {
 
         // Set an OnClickedListener
         sendButton.setOnClickListener(v -> {
+            String macAddress = macAddressField.getText().toString();
+            if (!isValidMacAddress(macAddress)) {
+                Toast.makeText(MainActivity.this, "Mac address is invalid", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            String data = "{" + dataField.getText().toString() + "}";
+            if(data.length() == 2){
+                Toast.makeText(MainActivity.this, "Data is empty", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             // Initialize usb port
             UsbSerialPort port = getUsbSerialPort();
             if (port == null) return;
-            String output = macAddressField.getText().toString() + dataField.getText().toString();
+            String output = macAddress + data;
 
             try {
                 port.write(output.getBytes(), WRITE_WAIT_MILLIS);
