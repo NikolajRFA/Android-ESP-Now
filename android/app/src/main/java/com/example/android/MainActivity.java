@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Mac address is invalid", Toast.LENGTH_SHORT).show();
                 return;
             }
-            String data = "{" + dataField.getText().toString() + "}";
+            String data = dataField.getText().toString();
             if(data.length() == 2){
                 Toast.makeText(MainActivity.this, "Data is empty", Toast.LENGTH_SHORT).show();
                 return;
