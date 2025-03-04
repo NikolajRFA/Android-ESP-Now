@@ -1,33 +1,31 @@
 #include <Arduino.h>
 
-char command[32];
+constexpr int INPUT_LENGTH = 255; 
+constexpr int MAC_ADDRESS_LENGTH = 17;
+constexpr int DATA_LENGTH = 238;
+constexpr int NULL_TERMINATOR_LENGTH = 1;
+char input[INPUT_LENGTH];
+char macAddressData[MAC_ADDRESS_LENGTH + NULL_TERMINATOR_LENGTH];
+char data[DATA_LENGTH + NULL_TERMINATOR_LENGTH];
 
 void setup()
 {
   pinMode(BUILTIN_LED, OUTPUT);
   Serial.begin(115200);
-  Serial.println("Ready to receive");
 }
 
-void commands(){
-  if (Serial.available() > 0) {
-    int avaliableBytes = Serial.available();
+void parseMacAddressAndData(){
+  int avaliableBytes = Serial.available();
+  if (avaliableBytes > 0){
     for (int i=0; i<avaliableBytes; i++){
-      command[i] = Serial.read();
+      input[i] = Serial.read();
     }
-
-    if (command[0]=='O' && command[1]=='N' && command[2]=='\n')
-    {
-      digitalWrite(BUILTIN_LED, HIGH);
-    }
-    else if (command[0]=='O' && command[1]=='F' && command[2] == 'F' && command[3] == '\n')
-    {
-      digitalWrite(BUILTIN_LED, LOW);
-    }
+    strncpy(macAddressData, input, MAC_ADDRESS_LENGTH);
+    strncpy(data, input+MAC_ADDRESS_LENGTH, DATA_LENGTH);
   }
 }
 
 void loop()
 {
-  commands();
+  parseMacAddressAndData();
 }
