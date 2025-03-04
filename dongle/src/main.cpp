@@ -12,7 +12,6 @@ void setup()
 {
   pinMode(BUILTIN_LED, OUTPUT);
   Serial.begin(115200);
-  Serial.println("Ready to receive");
 }
 
 void parseMacAddressAndData(){
@@ -22,11 +21,7 @@ void parseMacAddressAndData(){
       input[i] = Serial.read();
     }
     strncpy(macAddressData, input, MAC_ADDRESS_LENGTH);
-    Serial.print("MacAddress:");
-    Serial.println(macAddressData);
     strncpy(data, input+MAC_ADDRESS_LENGTH, DATA_LENGTH);
-    Serial.print("Data:");
-    Serial.println(data);
   }
 }
 
