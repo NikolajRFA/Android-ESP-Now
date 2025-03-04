@@ -22,6 +22,9 @@ import com.hoho.android.usbserial.driver.UsbSerialDriver;
 import com.hoho.android.usbserial.driver.UsbSerialPort;
 import com.hoho.android.usbserial.driver.UsbSerialProber;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -47,16 +50,17 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Mac address is invalid", Toast.LENGTH_SHORT).show();
                 return;
             }
-            String data = dataField.getText().toString();
-            if(data.length() == 2){
-                Toast.makeText(MainActivity.this, "Data is empty", Toast.LENGTH_SHORT).show();
+            String jsonData = dataField.getText().toString();
+
+            if(!isValidJson(jsonData)){
+                Toast.makeText(MainActivity.this, "JSON is invalid", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             // Initialize usb port
             UsbSerialPort port = getUsbSerialPort();
             if (port == null) return;
-            String output = macAddress + data;
+            String output = macAddress + jsonData;
 
             try {
                 port.write(output.getBytes(), WRITE_WAIT_MILLIS);
@@ -115,5 +119,14 @@ public class MainActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }
         return port;
+    }
+
+    private boolean isValidJson(String json) {
+        try {
+            new JSONObject(json);
+        } catch (JSONException e) {
+            return false;
+        }
+        return true;
     }
 }
