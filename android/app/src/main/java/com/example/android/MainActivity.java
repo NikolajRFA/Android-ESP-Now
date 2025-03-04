@@ -43,8 +43,7 @@ public class MainActivity extends AppCompatActivity {
             // Initialize usb port
             UsbSerialPort port = getUsbSerialPort();
             if (port == null) return;
-            String data = "%s:%s";
-            String output = String.format(data, macAddressField.getText(), dataField.getText());
+            String output = macAddressField.getText().toString() + dataField.getText().toString();
 
             try {
                 port.write(output.getBytes(), WRITE_WAIT_MILLIS);
