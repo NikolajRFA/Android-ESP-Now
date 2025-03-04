@@ -20,10 +20,19 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len)
   Serial.println(len);
   Serial.print("Data: ");
   Serial.println(message);
+  if (message[0] == 'O' && message[1] == 'N' && message[2] == '\n')
+  {
+    digitalWrite(BUILTIN_LED, HIGH);
+  }
+  else if (message[0] == 'O' && message[1] == 'F' && message[2] == 'F' && message[3] == '\n')
+  {
+    digitalWrite(BUILTIN_LED, LOW);
+  }
 }
 
 void setup()
 {
+  pinMode(LED_BUILTIN, OUTPUT);
   // Initialize Serial Monitor
   Serial.begin(115200);
 
