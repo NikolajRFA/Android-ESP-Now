@@ -47,7 +47,7 @@
             android:autofillHints=""
             android:hint="@string/enter_the_data_to_be_sent"
             android:inputType="text"
-            android:text="@string/presetCurlyBrances"/>
+            android:text="@string/presetCurlyBraces"/>
 
         <Button
             android:id="@+id/submitButton"
