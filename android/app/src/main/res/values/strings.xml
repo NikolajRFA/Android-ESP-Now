@@ -2,4 +2,9 @@
     <string name="app_name">android</string>
     <string name="button">Button</string>
     <string name="togglebutton">ToggleButton</string>
+    <string name="data">Data</string>
+    <string name="enter_the_receiver_s_mac_address">Enter the receiver\'s MAC address</string>
+    <string name="mac_address">MAC_ADDRESS</string>
+    <string name="enter_the_data_to_be_sent">Enter the data to be sent</string>
+    <string name="send">Send</string>
 </resources>
