@@ -3,9 +3,10 @@
 constexpr int INPUT_LENGTH = 255; 
 constexpr int MAC_ADDRESS_LENGTH = 17;
 constexpr int DATA_LENGTH = 238;
-char input[INPUT_LENGTH +1];
-char macAddressData[MAC_ADDRESS_LENGTH +1];
-char data[DATA_LENGTH +1];
+constexpr int NULL_TERMINATOR_LENGTH = 1;
+char input[INPUT_LENGTH];
+char macAddressData[MAC_ADDRESS_LENGTH + NULL_TERMINATOR_LENGTH];
+char data[DATA_LENGTH + NULL_TERMINATOR_LENGTH];
 
 void setup()
 {
