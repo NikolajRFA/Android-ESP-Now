@@ -28,18 +28,6 @@ void commands(){
   }
 }
 
-  /*switch (command)
-  {
-  case 'ON':
-    digitalWrite(BUILTIN_LED, HIGH);
-    break;
-
-  case 'OFF':
-    digitalWrite(BUILTIN_LED, LOW);
-  }
-  Serial.println(command);
-*/
-
 void loop()
 {
   commands();
