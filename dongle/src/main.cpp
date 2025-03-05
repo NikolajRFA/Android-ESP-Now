@@ -10,6 +10,7 @@ char input[INPUT_LENGTH];
 char macAddressData[MAC_ADDRESS_LENGTH + NULL_TERMINATOR_LENGTH];
 char data[DATA_LENGTH + NULL_TERMINATOR_LENGTH];
 uint8_t broadcastAddress[6];
+bool peerAdded = false;
 
 esp_now_peer_info_t peerInfo;
 
@@ -69,16 +70,20 @@ void parseMacAddressAndData()
     strncpy(data, input + MAC_ADDRESS_LENGTH, DATA_LENGTH);
     macAddressToUint8Array(macAddressData, broadcastAddress);
 
-    // Register peer
-    memcpy(peerInfo.peer_addr, broadcastAddress, 6);
-    peerInfo.channel = 0;
-    peerInfo.encrypt = false;
-
-    // Add peer
-    if (esp_now_add_peer(&peerInfo) != ESP_OK)
+    if (!peerAdded)
     {
-      Serial.println("Failed to add peer");
-      return;
+      // Register peer
+      memcpy(peerInfo.peer_addr, broadcastAddress, 6);
+      peerInfo.channel = 0;
+      peerInfo.encrypt = false;
+
+      // Add peer
+      if (esp_now_add_peer(&peerInfo) != ESP_OK)
+      {
+        Serial.println("Failed to add peer");
+        return;
+      }
+      peerAdded = true;
     }
 
     // Send message via ESP-NOW
