@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">android</string>
     <string name="button">Button</string>
     <string name="togglebutton">ToggleButton</string>
@@ -8,4 +8,5 @@
     <string name="enter_the_data_to_be_sent">Enter the data to be sent</string>
     <string name="send">Send</string>
     <string name="presetCurlyBraces">{}</string>
+    <string name="testMac" tools:ignore="TypographyDashes">ec-62-60-55-be-30</string>
 </resources>
