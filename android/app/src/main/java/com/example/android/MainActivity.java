@@ -41,26 +41,21 @@ public class MainActivity extends AppCompatActivity {
         EditText macAddressField = findViewById(R.id.macInput);
         EditText dataField = findViewById(R.id.dataInput);
 
-        final int WRITE_WAIT_MILLIS = 2000;
+        final int WRITE_WAIT_MILLIS = 5;
 
         // Set an OnClickedListener
         sendButton.setOnClickListener(v -> {
-            String macAddress = macAddressField.getText().toString();
-            if (!isValidMacAddress(macAddress)) {
-                Toast.makeText(MainActivity.this, "Mac address is invalid", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            String jsonData = dataField.getText().toString();
+            String macAddress = getMacAddress(macAddressField);
+            if (macAddress == null) return;
 
-            if(!isValidJson(jsonData)){
-                Toast.makeText(MainActivity.this, "JSON is invalid", Toast.LENGTH_SHORT).show();
-                return;
-            }
+            String jsonData = getJsonData(dataField);
+            if (jsonData == null) return;
+
+            String output = macAddress + jsonData;
 
             // Initialize usb port
             UsbSerialPort port = getUsbSerialPort();
             if (port == null) return;
-            String output = macAddress + jsonData;
 
             try {
                 port.write(output.getBytes(), WRITE_WAIT_MILLIS);
@@ -73,15 +68,19 @@ public class MainActivity extends AppCompatActivity {
 
         // Set an OnCheckedChangeListener
         myToggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            String macAddress = getMacAddress(macAddressField);
+            if(macAddress == null) return;
             // Initialize usb port
             UsbSerialPort port = getUsbSerialPort();
             if (port == null) return;
             try {
+                String output;
                 if (isChecked) {
-                    port.write("ON\n".getBytes(), WRITE_WAIT_MILLIS);
+                    output = macAddress + "{ON\n}";
                 } else {
-                    port.write("OFF\n".getBytes(), WRITE_WAIT_MILLIS);
+                    output = macAddress + "{OFF\n}";
                 }
+                port.write(output.getBytes(), WRITE_WAIT_MILLIS);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -93,6 +92,26 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    @Nullable
+    private String getJsonData(EditText dataField) {
+        String jsonData = dataField.getText().toString();
+        if(!isValidJson(jsonData)){
+            Toast.makeText(MainActivity.this, "JSON is invalid", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+        return jsonData;
+    }
+
+    @Nullable
+    private String getMacAddress(EditText macAddressField) {
+        String macAddress = macAddressField.getText().toString();
+        if (!isValidMacAddress(macAddress)) {
+            Toast.makeText(MainActivity.this, "Mac address is invalid", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+        return macAddress;
     }
 
     @Nullable
